@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Green@Energy</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div id="aiAlert" class="ai-alert">
+
+<span class="ai-close" onclick="closeAlert()">✖</span>
+
+<div class="ai-title">
+🚨 AI Fault Detection
+</div>
+
+<div class="ai-item">
+⚠️ <b>EGAI-000008</b><br>
+Sensor Failure Detected
+</div>
+
+<div class="ai-item">
+⚠️ <b>EGAI-000017</b><br>
+No Tree Motion Detected
+</div>
+
+<div class="ai-item">
+⚠️ <b>EGAI-000029</b><br>
+Weak IoT Signal
+</div>
+
+</div>
+
+<div class="hero" id="home">
+<nav>
+
+<div class="logo">
+⚡Green@Energy
+</div>
+
+<ul>
+
+<li><a href="#home"><i class="fa fa-home"></i> Home</a></li>
+
+<li><a href="#mytrees"><i class="fa fa-leaf"></i> My Devices</a></li>
+
+<li><a href="#doctor" onclick="showAlert()"><i class="fa fa-robot"></i> AI Monitor</a></li>
+
+<li><a href="#treemap"><i class="fa fa-map-marker-alt"></i> Energy Map</a></li>
+
+<li><a href="#energy"><i class="fa fa-bolt"></i> Energy</a></li>
+<li>
+<a href="#finance">
+<i class="fa fa-coins"></i> Finance
+</a>
+</li>
+
+<li><a href="#contact"><i class="fa fa-phone"></i> Contact</a></li>
+
+</ul>
+
+</nav>
+
+<div class="content">
+<h1>🌳Power Nature, Power the Future</h1>
+
+<p>
+
+An AI-powered renewable energy platform that converts the natural movement of trees into clean electricity using piezoelectric technology, IoT sensors, and AI
+
+</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<button class="energy-btn" onclick="openEnergyKit()">
+⚡ Get Green@Energy Device
+</button>
+
+</div>
+
+</div>
+
+<section class="dashboard" id="co2">
+
+<h2>📊 Live Statistics</h2>
+
+<div class="cards">
+
+<div class="card">
+<i class="fa fa-bolt"></i>
+<h3>Renewable Energy</h3>
+<div class="number" id="renewableEnergy">0.00 kWh</div>
+</div>
+
+<div class="card">
+<i class="fa fa-wind"></i>
+<h3>Wind Speed</h3>
+<div class="number" id="windSpeed">0 km/h</div>
+</div>
+
+<div class="card">
+<i class="fa fa-plug"></i>
+<h3>Voltage Output</h3>
+<div class="number" id="voltage">0 V</div>
+</div>
+
+
+<div class="card">
+<i class="fa fa-battery-three-quarters"></i>
+<h3>Battery Level</h3>
+<div class="number" id="battery">0%</div>
+</div>
+
+<div class="card">
+<i class="fa fa-gears"></i>
+<h3>System Efficiency</h3>
+<div class="number" id="efficiency">0%</div>
+</div>
+
+<div class="card">
+<i class="fa fa-heart-pulse"></i>
+<h3>Device Health</h3>
+<div class="number" id="deviceHealth">0%</div>
+</div>
+
+<div class="card">
+<i class="fa fa-microchip"></i>
+<h3>Active IoT Sensors</h3>
+<div class="number" id="sensors">0</div>
+</div>
+
+<div class="card">
+<i class="fa fa-battery-full"></i>
+<h3>Total Power Generated</h3>
+<div class="number" id="power">0.00 kW</div>
+</div>
+
+</div>
+<section class="dashboard">
+
+<h2>📊Environmental Analytics Dashboard</h2>
+
+<div class="analytics-grid">
+
+    <div class="analytics-card">
+        <h3>🌬 Wind Speed</h3>
+        <canvas id="windChart"></canvas>
+    </div>
+
+    <div class="analytics-card">
+        <h3>⚡ Voltage Output</h3>
+        <canvas id="voltageChart"></canvas>
+    </div>
+
+    <div class="analytics-card">
+        <h3>🔋 Battery Level</h3>
+        <canvas id="batteryChart"></canvas>
+    </div>
+
+    <div class="analytics-card">
+        <h3>⚡ Power Generated</h3>
+        <canvas id="powerChart"></canvas>
+    </div>
+
+    <div class="analytics-card">
+        <h3>🌳 Tree Motion</h3>
+        <canvas id="motionChart"></canvas>
+    </div>
+
+    <div class="analytics-card">
+        <h3>🌱 Energy Efficiency</h3>
+        <canvas id="efficiencyChart"></canvas>
+    </div>
+
+</div>
+
+</section>
+<section id="doctor" class="features">
+
+<h2>🤖 AI Device Monitor</h2>
+
+<div style="max-width:700px;margin:auto;text-align:center;">
+
+<h3>Select Tree ID</h3>
+
+<select id="doctorID" onchange="showTreeStatus()"
+style="width:100%;padding:15px;font-size:18px;border-radius:10px;">
+
+<option value="">-- Select Tree ID --</option>
+
+</select>
+
+<br><br>
+
+<div id="doctorResult"
+style="
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.2);
+display:none;
+text-align:left;
+">
+
+<h3 id="treeTitle"></h3>
+
+<p><b>⚡ Current Output:</b> <span id="treeCurrent"></span></p>
+
+<p><b>🔋 Battery Level:</b> <span id="treeBattery"></span></p>
+
+<p><b>📡 Sensor Status:</b> <span id="treeSensor"></span></p>
+
+<p><b>🌳 Tree Motion:</b> <span id="treeMotion"></span></p>
+
+<p><b>⚙️ Connection:</b> <span id="treeConnection"></span></p>
+
+<p><b>🌱 Energy Status:</b> <span id="treeEnergy"></span></p>
+
+<p><b>🤖 AI Recommendation:</b> <span id="treeAdvice"></span></p>
+
+</div>
+
+</div>
+
+</section>
+<section class="features">
+
+<h2>🌟 Green@Energy Smart Features</h2>
+
+<div class="feature-grid">
+
+<div class="feature">
+<i class="fa fa-robot"></i>
+<h3>AI Device Monitoring</h3>
+<h4>📋 Tree Health Status</h4>
+
+<table border="1" width="100%" cellpadding="6">
+
+<tr style="background:#2ecc71;color:white;">
+<th>Parameter</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td>Tree Health</td>
+<td>✅ Healthy</td>
+</tr>
+
+<tr>
+<td>Power Output</td>
+<td>4.8 W</td>
+</tr>
+
+<tr>
+<td>Voltage</td>
+<td>12.6 V</td>
+</tr>
+
+<tr>
+<td>Battery</td>
+<td>89%</td>
+</tr>
+
+<tr>
+<td>AI Prediction</td>
+<td>Excellent</td>
+</tr>
+
+</table>
+</div>
+
+<div class="feature">
+<i class="fa fa-bolt"></i>
+<h3>Piezoelectric Energy Harvesting</h3>
+<h3>🌳 Estimated Electricity Generation from One Tree</h3>
+
+<table border="1" width="100%" cellpadding="10">
+
+<tr style="background:#2ecc71; color:white;">
+<th>Condition</th>
+<th>Power Output</th>
+<th>Energy per Day</th>
+</tr>
+
+<tr>
+<td>🍃 Light Wind</td>
+<td>1–2 W</td>
+<td>10–20 Wh/day</td>
+</tr>
+
+<tr>
+<td>🌿 Moderate Wind</td>
+<td>3–5 W</td>
+<td>30–60 Wh/day</td>
+</tr>
+
+<tr>
+<td>🌬️ Strong Wind</td>
+<td>5–8 W</td>
+<td>60–100 Wh/day</td>
+</tr>
+
+</table>
+</div>
+
+<div class="feature">
+<i class="fa fa-microchip"></i>
+<h3>IoT Sensor Integration</h3>
+<p><h4>📡 Sensor Monitoring</h4>
+
+<table border="1" width="100%" cellpadding="6">
+
+<tr style="background:#2ecc71;color:white;">
+<th>Sensor</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td>Voltage Sensor</td>
+<td>✅ Active</td>
+</tr>
+
+<tr>
+<td>Current Sensor</td>
+<td>✅ Active</td>
+</tr>
+
+<tr>
+<td>Wind Sensor</td>
+<td>✅ Active</td>
+</tr>
+
+<tr>
+<td>Battery Sensor</td>
+<td>✅ Active</td>
+</tr>
+
+<tr>
+<td>Motion Sensor</td>
+<td>✅ Active</td>
+</tr>
+
+</table></p>
+</div>
+
+<div class="feature">
+<i class="fa fa-triangle-exclamation"></i>
+<h3>Fault Detection System</h3>
+<p>Identifies device problems and provides AI-based solutions.</p>
+</div>
+
+<div class="feature">
+<i class="fa fa-chart-line"></i>
+<h3>Energy Analytics Dashboard</h3>
+<p>Displays live energy data through interactive charts.</p>
+</div>
+
+<div class="feature">
+<i class="fa fa-qrcode"></i>
+<h3>Smart Device Identification</h3>
+<p>Provides unique IDs and QR codes for device tracking.</p>
+</div>
+
+</div>
+
+</section>
+<!-- Renewable Energy Dashboard -->
+
+<section class="energy" id="energy">
+
+<div style="
+text-align:center;
+font-size:22px;
+background:#9cff00;
+color:#064d00;
+padding:10px;
+border-radius:30px;
+width:fit-content;
+margin:auto;
+font-weight:bold;
+">
+🌟 GreenEnergy Innovation
+</div>
+
+<br>
+<h2>⚡ Renewable Energy Dashboard</h2>
+
+<div class="energy-grid">
+<div class="energy-card">
+<h3>🌬 Wind Energy</h3>
+<h1>0.82 kWh</h1>
+<p>Generated from small wind turbines.</p>
+</div>
+
+<div class="energy-card">
+<h3>🌳 Tree Motion</h3>
+<h1>0.18 kWh</h1>
+<p>Energy harvested from natural tree movement.</p>
+</div>
+
+<div class="energy-card">
+<h3>🔋 Battery</h3>
+<h1>89%</h1>
+<p>Current battery storage level.</p>
+</div>
+
+</div>
+
+</section>
+
+<section id="register" style="display:none;padding:60px;background:#f5fff5;">
+
+<h2 style="text-align:center;color:#1b5e20;">
+🌳 Register Your Tree
+</h2>
+
+<form id="treeForm" style="max-width:500px;margin:auto;">
+
+<input type="text" id="treeName" placeholder="Tree Name" required
+style="width:100%;padding:12px;margin:10px 0;">
+
+<input type="text" id="adopterName" placeholder="Adopter Name" required
+style="width:100%;padding:12px;margin:10px 0;">
+
+<input type="text" id="location" placeholder="Location" required
+style="width:100%;padding:12px;margin:10px 0;">
+
+<input type="date" id="date"
+style="width:100%;padding:12px;margin:10px 0;">
+
+<input type="file" id="photo"
+style="width:100%;padding:12px;margin:10px 0;">
+
+<img id="preview"
+style="display:none;width:200px;height:auto;margin-top:15px;border-radius:10px;">
+
+<button type="submit" class="btn">
+Register Tree
+</button>
+</form>
+
+</section>
+<!-- My Trees Section -->
+
+<section id="mytrees" style="padding:60px;background:#eef8ee;">
+
+<h2 style="text-align:center;color:#1b5e20;">
+🚨 AI Smart Fault Detection Center
+</h2>
+
+<p style="
+text-align:center;
+font-size:18px;
+margin-top:15px;
+">
+AI continuously monitors 40 tree energy devices and identifies abnormal devices requiring maintenance.
+</p>
+
+
+<div class="cards" style="
+max-width:1200px;
+margin:40px auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:30px;
+">
+
+
+<!-- Fault Device 8 -->
+
+<div class="card">
+
+<h3 style="color:red;">
+⚠️ EGAI-000008
+</h3>
+
+<hr>
+
+<p>📍 <b>Location:</b> Field Zone A</p>
+
+<p>🗺️ <b>Field Position:</b> Row 2, Column 3</p>
+
+<p>❌ <b>Problem:</b><br>
+Sensor Failure
+</p>
+
+<p>🔋 <b>Battery:</b> 28%</p>
+
+<p>🌳 <b>Tree Motion:</b> Low</p>
+
+<p>⚡ <b>Energy Output:</b> 0.40 kWh</p>
+
+<p>📡 <b>Sensor Status:</b> Failed</p>
+
+<p>
+🤖 <b>AI Solution:</b><br>
+Replace vibration sensor
+</p>
+
+<button class="btn"
+style="font-size:15px;"
+onclick="document.getElementById('treemap').scrollIntoView({behavior:'smooth'})">
+📍 Locate Tree
+</button>
+
+</div>
+
+
+
+<!-- Fault Device 17 -->
+
+<div class="card">
+
+<h3 style="color:red;">
+⚠️ EGAI-000017
+</h3>
+
+<hr>
+
+<p>📍 <b>Location:</b> Field Zone B</p>
+
+<p>🗺️ <b>Field Position:</b> Row 5, Column 2</p>
+
+<p>❌ <b>Problem:</b><br>
+No Tree Motion Detected
+</p>
+
+<p>🔋 <b>Battery:</b> 15%</p>
+
+<p>📡 <b>Connection:</b> Loose Connection</p>
+
+<p>⚡ <b>Energy Output:</b> 0 kWh</p>
+
+<p>🌳 <b>Tree Motion:</b> No Motion</p>
+
+<p>
+🤖 <b>AI Solution:</b><br>
+Inspect device connection
+</p>
+
+<button class="btn"
+style="font-size:15px;"
+onclick="document.getElementById('treemap').scrollIntoView({behavior:'smooth'})">
+📍 Locate Tree
+</button>
+
+</div>
+
+
+
+<!-- Fault Device 29 -->
+
+<div class="card">
+
+<h3 style="color:red;">
+⚠️ EGAI-000029
+</h3>
+
+<hr>
+
+<p>📍 <b>Location:</b> Field Zone C</p>
+
+<p>🗺️ <b>Field Position:</b> Row 7, Column 4</p>
+
+<p>❌ <b>Problem:</b><br>
+Weak Sensor Signal
+</p>
+
+<p>🔋 <b>Battery:</b> 32%</p>
+
+<p>📡 <b>Sensor Status:</b> Weak Signal</p>
+
+<p>⚡ <b>Energy Output:</b> Low</p>
+
+<p>🌐 <b>IoT Connection:</b> Unstable</p>
+
+<p>
+🤖 <b>AI Solution:</b><br>
+Check IoT module
+</p>
+
+<button class="btn"
+style="font-size:15px;"
+onclick="document.getElementById('treemap').scrollIntoView({behavior:'smooth'})">
+📍 Locate Tree
+</button>
+
+</div>
+
+
+</div>
+
+<div style="max-width:500px;margin:auto;">
+
+<input
+type="text"
+id="searchTreeID"
+placeholder="Enter Tree ID (Example: EGAI-000001)"
+style="width:100%;padding:15px;margin-top:20px;border-radius:8px;border:1px solid #ccc;">
+
+<br><br>
+
+<button
+id="searchBtn"
+class="btn"
+style="width:100%;">
+🔍 Better Detection
+</button>
+
+</div>
+
+<br>
+
+<div
+id="treeResult"
+style="display:none;
+max-width:700px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.2);
+text-align:center;">
+
+
+
+
+<div style="display:flex;justify-content:center;align-items:flex-start;gap:40px;margin-top:20px;">
+
+    <div>
+        <img id="showPhoto"
+             width="250"
+             style="display:none;border-radius:10px;">
+    </div>
+
+    <div>
+        <h3>📱 Tree QR Code</h3>
+        <div id="treeQRCode"></div>
+    </div>
+
+</div>
+</div>
+
+</section>
+<section id="treemap" class="environment">
+
+<h2>🗺️ Smart Field Tree Monitoring Map</h2>
+
+<div id="treeMap" style="
+height:500px;
+width:90%;
+margin:auto;
+border-radius:20px;
+box-shadow:0 5px 20px rgba(0,0,0,.2);
+"></div>
+
+<p style="
+text-align:center;
+margin-top:20px;
+font-size:18px;
+">
+🌳 40 trees are monitored using GPS-based IoT tracking.
+</p>
+
+</section>
+<br>
+<br>
+<br>
+<br>
+
+<section id="energykit" class="energy">
+
+<h2>⚡Green@Energy >> Tree Energy Device</h2>
+
+
+<div class="energy-card">
+<h3>🎥 EcoGrow Tree Energy Device Working Video</h3>
+
+<video width="80%" controls style="border-radius:15px;">
+
+<source src="ideavideo.mp4" type="video/mp4">
+
+Your browser does not support video.
+
+</video>
+
+<h3>🌳 Smart Piezoelectric Tree Energy Harvesting System</h3>
+
+<p>
+EcoGrow AI introduces an innovative renewable energy system where
+flexible piezoelectric materials are attached to tree branches.
+When wind causes natural branch movement, mechanical vibrations
+are converted into electrical energy. The generated electricity is
+stored in a battery and can be used for household applications.
+</p>
+
+
+<br>
+
+<h3>🔋 Working Process</h3>
+
+<p>
+Wind Movement 🌬️
+→ Tree Branch Vibration 🌳
+→ Piezoelectric Material ⚡
+→ Rectifier Circuit 🔌
+→ Battery Storage 🔋
+→ Home Appliances 🏠
+</p>
+<br>
+<div class="cards" style="margin-top:40px;">
+
+    <div class="card">
+        <img src="test.jpeg" alt="" class="gallery-img">
+    </div>
+
+    <div class="card">
+        <img src="script.jpeg" alt="" class="gallery-img">
+    </div>
+
+    <div class="card">
+        <img src="paper.jpeg" alt="" class="gallery-img">
+    </div>
+
+</div>
+<br>
+<br>
+
+<h3>🎬 Tree Energy Device Demonstration</h3>
+
+<div style="text-align:center;margin:30px 0;">
+
+<video 
+width="80%" 
+controls
+style="
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,.3);
+">
+
+<source src="devicedemo.mp4" type="video/mp4">
+
+Your browser does not support video.
+
+</video>
+
+</div>
+
+<p style="
+text-align:center;
+font-size:18px;
+">
+⚡ Demonstration of piezoelectric energy generation, IoT monitoring, and battery storage process.
+</p>
+
+<br> 
+
+<h3>🧩 Materials Used</h3>
+
+<ul style="text-align:left;line-height:35px;">
+
+<li>🌟 PVDF Piezoelectric Film - converts vibration into electricity</li>
+
+<li>⚡ Conductive Electrodes - collects electrical charges</li>
+
+<li>🔌 Rectifier Circuit - converts AC to DC power</li>
+
+<li>🔋 Rechargeable Battery - stores generated energy</li>
+
+<li>📡 IoT Sensors - monitor voltage, current and energy generation</li>
+
+<li>🌡 Environmental Sensors - measure wind and tree conditions</li>
+
+</ul>
+
+
+<br>
+
+<h3>🏠 Home Appliance Energy Usage</h3>
+
+<table border="1" width="100%" cellpadding="10">
+
+<tr style="background:#2ecc71;color:white;">
+<th>Appliance</th>
+<th>Approx Power</th>
+<th>Backup Time</th>
+</tr>
+
+<tr>
+<td>💡 LED Bulb</td>
+<td>9 Watts</td>
+<td>8–9 Hours</td>
+</tr>
+
+<tr>
+<td>📱 Mobile Charger</td>
+<td>10 Watts</td>
+<td>6–8 Full Charges</td>
+</tr>
+
+<tr>
+<td>📶 Wi-Fi Router</td>
+<td>10 Watts</td>
+<td>7–8 Hours</td>
+</tr>
+
+<tr>
+<td>🌬️ DC Fan</td>
+<td>20 Watts</td>
+<td>4 Hours</td>
+</tr>
+
+<tr>
+<td>💻 Laptop</td>
+<td>60 Watts</td>
+<td>1–1.5 Hours</td>
+</tr>
+
+<tr>
+<td>📺 LED TV</td>
+<td>50 Watts</td>
+<td>1–1.5 Hours</td>
+</tr>
+
+</table>
+
+
+<br>
+
+<h3>🌱 Future Vision</h3>
+
+<p>
+"Every tree can become a source of clean energy.
+Protect nature, generate power, and build a sustainable future."
+</p>
+
+
+</div>
+
+</section>
+
+<section id="contact" class="environment">
+
+<h2>📞Contact</h2>
+
+<center>
+
+<p>Email: greenenergy@gmail.com</p>
+
+<p>Phone: +91 9999887766</p>
+
+<p>For sensor and website support.</p>
+
+</center>
+
+</section>
+<br>
+<br>
+<footer>
+
+<h2>EcoGrow AI</h2>
+
+<p>
+Smart Tree Growth & Renewable Energy Platform
+</p>
+
+<br>
+
+<p>
+© 2026 Green@Energy. All Rights Reserved.
+</p>
+
+</footer>
+<div id="successPopup" style="
+display:none;
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 0 20px rgba(0,0,0,.3);
+z-index:9999;
+width:500px;">
+
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+
+<div>
+<h2 style="color:green;">🌳 Tree Registered!</h2>
+
+<p><b>Tree ID:</b> <span id="popupTreeID"></span></p>
+
+<p>🎉 You earned 50 Green Points.</p>
+</div>
+
+<div id="popupQRCode"></div>
+
+</div>
+
+<br>
+
+<button onclick="document.getElementById('successPopup').style.display='none'"
+style="padding:10px 20px;background:green;color:white;border:none;border-radius:8px;cursor:pointer;">
+OK
+</button>
+
+</div>
+<script src="script.js"></script>
+
+</body>
+</html>
