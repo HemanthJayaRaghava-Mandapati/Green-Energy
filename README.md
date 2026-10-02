@@ -73,10 +73,6 @@ IoT sensors can collect environmental and device information and make the data a
 - Data visualization
 - Environmental monitoring
 
-8) Live Demo
-
-**Live Website:**  
-https://hemanthjayaraghava-mandapati.github.io/Green-Energy/
 
 9)Project Files
 
@@ -102,3 +98,8 @@ https://hemanthjayaraghava-mandapati.github.io/Green-Energy/
 BCA – Data Science
 
 Aditya Degree College, Kakinada, Andhra Pradesh
+
+---> Live Demo<---
+
+**Live Website:**  
+https://hemanthjayaraghava-mandapati.github.io/Green-Energy/
