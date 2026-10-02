@@ -103,3 +103,21 @@ Aditya Degree College, Kakinada, Andhra Pradesh
 
 **Live Website:**  
 https://hemanthjayaraghava-mandapati.github.io/Green-Energy/
+
+## 📸 Project Screenshots
+
+### 🌱 Green@Energy Homepage
+
+![Green@Energy Homepage](green-energy-homepage.png)
+
+### 📊 Energy Dashboard & Graphs
+
+![Energy Dashboard](green-energy-graphs.png)
+
+### 🚨 AI Smart Fault Detection
+
+![AI Smart Fault Detection](green-energy-faultd.png)
+
+### 🗺️ Smart Field Tree Monitoring Map
+
+![Smart Field Tree Monitoring Map](green-energy-map.png)
